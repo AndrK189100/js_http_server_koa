@@ -4,3 +4,4 @@ certs
 *.log
 dist
 .vscode
+.foreverignore
