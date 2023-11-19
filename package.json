@@ -1,0 +1,21 @@
+{
+  "name": "http_server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "AndrK189100 <andrka@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.14.2",
+    "koa-body": "^6.0.1",
+    "uuid": "^9.0.1"
+  },
+  "scripts": {
+    "test": "jest --testPathPattern=./__tests__",
+    "start": "forever server.js",
+    "watch": "forever -w server.js",
+    "forever": "forever"
+  },
+  "devDependencies": {
+    "forever": "^4.0.3"
+  }
+}
