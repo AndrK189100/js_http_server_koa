@@ -42,10 +42,10 @@ app.use( ctx => {
             ctx.response.body = tempTickets;
             return;
         case 'ticketById':
-            const ticketDiscribe = tickets.find(element => element.id === ctx.query.id).discribe;
+            const ticketDiscribe = tickets.find(element => element.id === ctx.query.id);
             ctx.response.set('Access-Control-Allow-Origin', '*');
-            ctx.response.status = 200;
-            ctx.response.body = ticketDiscribe;
+            ctx.response.status = ticketDiscribe === undefined ? 404 : 200;
+            ctx.response.body = ticketDiscribe !== undefined ? ticketDiscribe.discribe : false;
             return;
         case 'createTicket':
             const ticket = ctx.request.body;
@@ -58,25 +58,37 @@ app.use( ctx => {
             return;
         case 'deleteTicket':
             const delTicket = tickets.find(element => element.id === ctx.query.id);
-            tickets.splice(tickets.indexOf(delTicket), 1);
             ctx.response.set('Access-Control-Allow-Origin', '*');
+            if(delTicket === undefined) {
+                ctx.response.status = 404;
+                return;    
+            }
+            tickets.splice(tickets.indexOf(delTicket), 1);
             ctx.response.status = 200;
             return;
         case 'setStatus':
             const statusTicket = tickets.find(element => element.id === ctx.request.body.id);
+            ctx.response.set('Access-Control-Allow-Origin', '*');
+            if(statusTicket === undefined) {
+                ctx.response.status = 404;
+                return;
+            }
             if(ctx.request.body.status === 'true') {
                 statusTicket.status = true;
             }
             else {
                 statusTicket.status = false;
             }
-            ctx.response.set('Access-Control-Allow-Origin', '*');
             ctx.response.status = 200;
             return;
         case 'editTicket':
             const editTicket = tickets.find(element => element.id === ctx.request.body.id);
-            editTicket.discribe = ctx.request.body.discribe;
             ctx.response.set('Access-Control-Allow-Origin', '*');
+            if(editTicket === undefined) {
+                ctx.response.status = 404;
+                return;
+            }
+            editTicket.discribe = ctx.request.body.discribe;
             ctx.response.status = 200;
             return;        
     }
